@@ -45,7 +45,7 @@ $ bash runserver.sh
 
 or
 
-$ uvicorn project.wsgi:application --reload
+$ uvicorn project.asgi:application --reload
 ```
 
 # Static files production
@@ -72,15 +72,10 @@ MIDDLEWARE = [
 
 ```
 
-- <h3> <strong>Step 2: </strong> uncomment</h3>
+- <h3> <strong>Step 2: </strong> config</h3>
 
 ```Python
-"""Before"""
-# FORCE_SCRIPT_NAME = PREFIX_MOUNT
-
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-"""After"""
+# Add this two line
 FORCE_SCRIPT_NAME = PREFIX_MOUNT
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -114,12 +109,12 @@ $ npm i -g vercel
   "builds":
     [
       {
-        "src": "project/wsgi.py",
+        "src": "project/asgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb" },
       },
     ],
-  "routes": [{ "src": "/(.*)", "dest": "project/wsgi.py" }],
+  "routes": [{ "src": "/(.*)", "dest": "project/asgi.py" }],
 }
 ```
 
@@ -174,4 +169,10 @@ DATABASES = {
 
     }
 }
+```
+
+- <h3> <strong>Update deploy:</strong> new fetures</h3>
+
+```console
+$ vercel --prod .
 ```

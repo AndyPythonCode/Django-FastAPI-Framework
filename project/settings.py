@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #Apps
-    'book',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +54,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'project.urls'
+
+# USER OAuth2 with Password (and hashing), Bearer with JWT tokens
+# https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/
+AUTH_USER_MODEL = 'user.MyUser'
 
 TEMPLATES = [
     {
@@ -71,37 +75,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# Second option: Uses another remote database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-# GO TO .env to add your database credential
-# DATABASES = {
-#     'default': {
-
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-#         'NAME': config('DB_NAME'),
-
-#         'USER': config('DB_USER'),
-
-#         'PASSWORD': config('DB_PASSWORD'),
-
-#         'HOST': config('DB_HOST'),
-
-#         'PORT': '5432',
-
-#     }
-# }
 
 
 # Password validation
@@ -122,6 +105,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Admin panel
+# https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#adminsite-attributes
+SITE_HEADER = 'Fastapi-Django' 
+SITE_TITLE = 'API'
+INDEX_TITLE = 'Rest API administration'
+SITE_URL = config('HOST_NAME', default='http://localhost:8000/')
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -139,7 +128,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 # FastAPI -> app.mount(PREFIX_MOUNT, WSGIMiddleware(get_wsgi_application()))
 PREFIX_MOUNT = '/panel'
 
@@ -148,25 +136,19 @@ STATIC_URL = PREFIX_MOUNT + '/static/'
 STATIC_ROOT = Path.joinpath(BASE_DIR, 'static')
 
 
-# -------------------------------------------WHITENOISE-----------------------------------------------
-
-# FORCE_SCRIPT_NAME = PREFIX_MOUNT
-
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 # FASTAPI CONFIG (METADATA)
 API_NAME = 'Django-FastAPI'
 
-API_DESCRIPTION = 'LOREM...'
+API_DESCRIPTION = 'Lorem description...'
 
 API_VERSION = '0.0.1'
 
-API_DOCS_URL = '/docs'
+API_DOCS_URL = '/' #/docs
 
 API_REDOC_URL = '/redoc'

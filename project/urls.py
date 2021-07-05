@@ -20,7 +20,7 @@ from django.contrib.staticfiles import views
 
 urlpatterns = [path("admin/", admin.site.urls)]
 
-#Look for every single static file
+# Look for every single static file in dev mode
 if settings.DEBUG:
     from django.urls import re_path
     urlpatterns += [re_path(r"^static/(?P<path>.*)$", views.serve)]
