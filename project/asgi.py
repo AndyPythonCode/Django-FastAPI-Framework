@@ -1,3 +1,4 @@
+# ASGI (Asynchronous Server Gateway Interface)
 import os, django
 from django.conf import settings
 from fastapi.applications import FastAPI
